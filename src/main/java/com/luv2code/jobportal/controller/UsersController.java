@@ -2,6 +2,7 @@ package com.luv2code.jobportal.controller;
 
 import com.luv2code.jobportal.entity.Users;
 import com.luv2code.jobportal.entity.UsersType;
+import com.luv2code.jobportal.service.UsersService;
 import com.luv2code.jobportal.service.UsersTypeSevice;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import java.util.List;
 public class UsersController {
 
     private final UsersTypeSevice usersTypeSevice;
+    private final UsersService usersService;
 
     @Autowired
-    public UsersController(UsersTypeSevice usersTypeSevice) {
+    public UsersController(UsersTypeSevice usersTypeSevice, UsersService usersService) {
         this.usersTypeSevice = usersTypeSevice;
+        this.usersService = usersService;
     }
 
     @GetMapping("/register")
@@ -32,7 +35,8 @@ public class UsersController {
 
     @PostMapping("/register/new")
     public String userRegistration(@Valid Users users) {
-        System.out.println("User:: "+users);
+//        System.out.println("User:: "+users);
+        usersService.addNew(users);
         return "dashboard";
     }
 }
