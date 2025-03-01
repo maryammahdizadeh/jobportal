@@ -24,7 +24,8 @@ public class RecruiterProfile {
     @Column(nullable = true,length = 64)
     private String profilePhoto;
 
-    public RecruiterProfile() {
+    public RecruiterProfile(Users users) {
+        this.userId = users;
     }
 
     public RecruiterProfile(int userAccountId, Users userId, String firstName, String lastName, String city, String state, String country, String company, String profilePhoto) {
