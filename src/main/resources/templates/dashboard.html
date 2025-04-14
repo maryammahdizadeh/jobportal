@@ -98,7 +98,7 @@
                         style="text-decoration: none; color: black"
                 >
                     <div
-                            onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})"
+                            onclick="window.location.href = '/job-details-apply/' + jobPost.jobPostId"
                             class="job-row"
                     >
                         <div class="row">
@@ -108,8 +108,8 @@
                                     <span
                                             class="title-span"
                                             sec:authorize="hasAuthority('Recruiter')"
-                                            th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'"
-                                    >(xx candidates applied)</span
+                                            th:text="'(' + ${jobPost.totalCandidates} + ' Candidates Applied)'"
+                                    >(xx candidates applied)</span>
                                     >
                                     <span
                                             class="title-span"
