@@ -110,7 +110,7 @@
                             onclick="window.location.href = '/job-details-apply/' + jobPost.jobPostId"
                             class="job-row"
                     >
-                        <div class="row">
+                    <div class="row">
                             <div class="col-md-4">
                                 <label class="job-title text-left">
                                     [[${jobPost.jobTitle}]]
@@ -119,7 +119,6 @@
                                             sec:authorize="hasAuthority('Recruiter')"
                                             th:text="'(' + ${jobPost.totalCandidates} + ' Candidates Applied)'"
                                     >(xx candidates applied)</span>
-                                    >
                                     <span
                                             class="title-span"
                                             sec:authorize="hasAuthority('Job Seeker')"
