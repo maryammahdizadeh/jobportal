@@ -10,13 +10,13 @@ public class Skills {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
     private String experienceLevel;
 
-    private String yearOfExperience;
+    private String yearsOfExperience;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "job_seeker_profile")
@@ -25,19 +25,19 @@ public class Skills {
     public Skills() {
     }
 
-    public Skills(int id, String name, String experienceLevel, String yearOfExperience, JobSeekerProfile jobSeekerProfile) {
+    public Skills(Integer id, String name, String experienceLevel, String yearOfExperience, JobSeekerProfile jobSeekerProfile) {
         this.id = id;
         this.name = name;
         this.experienceLevel = experienceLevel;
-        this.yearOfExperience = yearOfExperience;
+        this.yearsOfExperience = yearOfExperience;
         this.jobSeekerProfile = jobSeekerProfile;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,12 +57,12 @@ public class Skills {
         this.experienceLevel = experienceLevel;
     }
 
-    public String getYearOfExperience() {
-        return yearOfExperience;
+    public String getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
     public void setYearOfExperience(String yearOfExperience) {
-        this.yearOfExperience = yearOfExperience;
+        this.yearsOfExperience = yearOfExperience;
     }
 
     public JobSeekerProfile getJobSeekerProfile() {
@@ -79,7 +79,7 @@ public class Skills {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", experienceLevel='" + experienceLevel + '\'' +
-                ", yearOfExperience='" + yearOfExperience + '\'' +
+                ", yearOfExperience='" + yearsOfExperience + '\'' +
                 ", jobSeekerProfile=" + jobSeekerProfile +
                 '}';
     }
