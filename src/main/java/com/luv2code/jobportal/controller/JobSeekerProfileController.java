@@ -28,6 +28,7 @@ public class JobSeekerProfileController  {
     private final JobSeekerProfileService jobSeekerProfileService;
     private final UsersRepository usersRepository;
 
+
     @Autowired
     public JobSeekerProfileController(JobSeekerProfileService jobSeekerProfileService, UsersRepository usersRepository) {
         this.jobSeekerProfileService = jobSeekerProfileService;
@@ -35,7 +36,7 @@ public class JobSeekerProfileController  {
     }
 
     @GetMapping("/")
-    public String jobSeekerProfile(Model model) {
+    public String jobSeekerProfile(Model model ) {
         JobSeekerProfile jobSeekerProfile = new JobSeekerProfile();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<Skills> skills = new ArrayList<>();
