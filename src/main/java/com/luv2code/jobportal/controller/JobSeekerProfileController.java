@@ -92,6 +92,11 @@ public class JobSeekerProfileController  {
             jobSeekerProfile.setProfilePhoto(imageName);
         }
 
+        if (!Objects.equals(pdf.getOriginalFilename(), "")) {
+            resumeName = StringUtils.cleanPath(Objects.requireNonNull(pdf.getOriginalFilename()));
+            jobSeekerProfile.setResume(resumeName);
+        }
+
 
          return "redirect:/dashboard/";
 
