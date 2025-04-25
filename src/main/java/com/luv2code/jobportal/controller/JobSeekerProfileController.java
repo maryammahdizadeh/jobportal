@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -82,6 +84,13 @@ public class JobSeekerProfileController  {
             skill.setJobSeekerProfile(jobSeekerProfile);
         }
 
+        String imageName = "";
+        String resumeName = "";
+
+        if (!Objects.equals(image.getOriginalFilename(), "")) {
+            imageName = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
+            jobSeekerProfile.setProfilePhoto(imageName);
+        }
 
 
          return "redirect:/dashboard/";
