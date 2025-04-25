@@ -74,10 +74,15 @@ public class JobSeekerProfileController  {
             jobSeekerProfile.setUserId(user);
             jobSeekerProfile.setUserAccountId(user.getUserId());
         }
-
         List<Skills> skillsList = new ArrayList<>();
         model.addAttribute("profile", jobSeekerProfile);
         model.addAttribute("skills", skillsList);
+
+        for (Skills skill : jobSeekerProfile.getSkills()) {
+            skill.setJobSeekerProfile(jobSeekerProfile);
+        }
+
+
 
          return "redirect:/dashboard/";
 
