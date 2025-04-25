@@ -97,6 +97,7 @@ public class JobSeekerProfileController  {
             jobSeekerProfile.setResume(resumeName);
         }
 
+       JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
 
          return "redirect:/dashboard/";
 
