@@ -7,6 +7,7 @@ import com.luv2code.jobportal.entity.Users;
 import com.luv2code.jobportal.repository.UsersRepository;
 import com.luv2code.jobportal.service.JobSeekerProfileService;
 import com.luv2code.jobportal.service.UsersService;
+import com.luv2code.jobportal.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -98,6 +100,15 @@ public class JobSeekerProfileController  {
         }
 
        JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
+
+        try {
+            String uploadDir = "/photos/candidate/" + jobSeekerProfile.getUserAccountId();
+            if(!Objects.equals(image.getOriginalFilename(),"")) {
+                FileUploadUtil.saveFile(uploadDir, imageName, image);
+            }
+        }catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
 
          return "redirect:/dashboard/";
 
