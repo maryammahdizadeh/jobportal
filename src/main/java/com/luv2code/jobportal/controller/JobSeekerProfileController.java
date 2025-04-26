@@ -106,6 +106,10 @@ public class JobSeekerProfileController  {
             if(!Objects.equals(image.getOriginalFilename(),"")) {
                 FileUploadUtil.saveFile(uploadDir, imageName, image);
             }
+
+            if(!Objects.equals(pdf.getOriginalFilename(),"")) {
+                FileUploadUtil.saveFile(uploadDir, resumeName, pdf);
+            }
         }catch (IOException exception) {
             throw new RuntimeException(exception);
         }
