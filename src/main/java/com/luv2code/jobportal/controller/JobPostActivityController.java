@@ -1,10 +1,8 @@
 package com.luv2code.jobportal.controller;
 
-import com.luv2code.jobportal.entity.JobPostActivity;
-import com.luv2code.jobportal.entity.RecruiterJobsDto;
-import com.luv2code.jobportal.entity.RecruiterProfile;
-import com.luv2code.jobportal.entity.Users;
+import com.luv2code.jobportal.entity.*;
 import com.luv2code.jobportal.service.JobPostActivityService;
+import com.luv2code.jobportal.service.JobSeekerApplyService;
 import com.luv2code.jobportal.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -30,11 +28,13 @@ public class JobPostActivityController {
 
     private final UsersService usersService;
     private final JobPostActivityService jobPostActivityService;
+    private final JobSeekerApplyService jobSeekerApplyService;
 
     @Autowired
-    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService) {
+    public JobPostActivityController(UsersService usersService, JobPostActivityService jobPostActivityService, JobSeekerApplyService jobSeekerApplyService) {
         this.usersService = usersService;
         this.jobPostActivityService = jobPostActivityService;
+        this.jobSeekerApplyService = jobSeekerApplyService;
     }
 
     @GetMapping("/dashboard/ ")
@@ -50,7 +50,7 @@ public class JobPostActivityController {
                              @RequestParam(value = "today", required = false) boolean today,
                              @RequestParam(value = "days7", required = false) boolean days7,
                              @RequestParam(value = "days30", required = false) boolean days30
-                             ) {
+    ) {
 
         model.addAttribute("partTime", Objects.equals(partTime, "Part-Time"));
         model.addAttribute("fullTime", Objects.equals(fullTime, "Full-Time"));
@@ -116,6 +116,8 @@ public class JobPostActivityController {
                 List<RecruiterJobsDto> recruiterJobs = jobPostActivityService.getRecruiterJobs(((RecruiterProfile)
                         currentUserProfile).getUserAccountId());
                 model.addAttribute("jobPost", recruiterJobs);
+            } else {
+                List<JobSeekerApply> jobSeekerApplyList = jobSeekerApplyService.getCandidatesJobs((JobSeekerProfile) currentUserProfile);
             }
         }
         model.addAttribute("user", currentUserProfile);
@@ -148,7 +150,7 @@ public class JobPostActivityController {
     public String editJob(@PathVariable("id") int id, Model model) {
         JobPostActivity jobPostActivity = jobPostActivityService.getOne(id);
         model.addAttribute("jobPostActivity", jobPostActivity);
-        model.addAttribute("user", usersService.getCurrentUserProfile() );
+        model.addAttribute("user", usersService.getCurrentUserProfile());
         return "add-jobs";
     }
 }
