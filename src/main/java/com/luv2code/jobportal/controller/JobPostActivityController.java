@@ -13,12 +13,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -93,6 +95,13 @@ public class JobPostActivityController {
             remoteOnly = "Remote-Only";
             partialRemote = "Partial-Remote";
             type = false;
+        }
+
+        if (!dateSearchFlag && !remote && !type && !StringUtils.hasText(job) && !StringUtils.hasText(location)) {
+            jobPost = jobPostActivityService.getAll();
+        } else {
+            jobPost = jobPostActivityService.search(job, location, Arrays.asList(partTime, fullTime, freelance),
+                    Arrays.asList(remoteOnly, officeOnly, partialRemote), searchDate);
         }
 
 
