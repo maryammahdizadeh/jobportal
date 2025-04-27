@@ -1,6 +1,7 @@
 package com.luv2code.jobportal.service;
 
 
+import com.luv2code.jobportal.entity.JobPostActivity;
 import com.luv2code.jobportal.entity.JobSeekerApply;
 import com.luv2code.jobportal.entity.JobSeekerProfile;
 import com.luv2code.jobportal.repository.JobSeekerApplyRepository;
@@ -21,5 +22,9 @@ public class JobSeekerApplyService {
 
     public List<JobSeekerApply> getCandidatesJobs(JobSeekerProfile userAccountId) {
         return jobSeekerApplyRepository.findByUserId(userAccountId);
+    }
+
+    public List<JobSeekerApply> getJobCandidates(JobPostActivity job) {
+        return jobSeekerApplyRepository.findByJob(job);
     }
 }
