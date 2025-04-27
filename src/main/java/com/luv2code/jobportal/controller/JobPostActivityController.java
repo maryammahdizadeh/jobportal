@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -64,6 +65,21 @@ public class JobPostActivityController {
         model.addAttribute("job", job);
         model.addAttribute("location", location);
 
+        LocalDate searchDate = null;
+        List<JobPostActivity> jobPost = null;
+        boolean dateSearchFlag = true;
+        boolean remote = true;
+        boolean type = true;
+
+        if (days30) {
+            searchDate = LocalDate.now().minusDays(30);
+        } else if (days7) {
+            searchDate = LocalDate.now().minusDays(7);
+        } else if (today) {
+            searchDate = LocalDate.now();
+        } else {
+            dateSearchFlag = false;
+        }
 
 
         Object currentUserProfile = usersService.getCurrentUserProfile();
