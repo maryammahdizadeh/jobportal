@@ -81,6 +81,20 @@ public class JobPostActivityController {
             dateSearchFlag = false;
         }
 
+        if (partTime == null && fullTime == null && freelance == null) {
+            partTime = "Part-Time";
+            fullTime = "Full-Time";
+            freelance = "Freelance";
+            remote = false;
+        }
+
+        if (officeOnly == null && remoteOnly == null && partialRemote == null) {
+            officeOnly = "Office-Only";
+            remoteOnly = "Remote-Only";
+            partialRemote = "Partial-Remote";
+            type = false;
+        }
+
 
         Object currentUserProfile = usersService.getCurrentUserProfile();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
