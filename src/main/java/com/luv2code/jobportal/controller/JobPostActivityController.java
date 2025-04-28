@@ -40,7 +40,7 @@ public class JobPostActivityController {
         this.jobSeekerSaveService = jobSeekerSaveService;
     }
 
-    @GetMapping("/dashboard/ ")
+    @GetMapping("/dashboard/")
     public String searchJobs(Model model,
                              @RequestParam(value = "job", required = false) String job,
                              @RequestParam(value = "location", required = false) String location,
@@ -133,7 +133,7 @@ public class JobPostActivityController {
                     saved = false;
                     for (JobSeekerApply jobSeekerApply : jobSeekerApplyList) {
                         if (Objects.equals(jobActivity.getJobPostId(), jobSeekerApply.getJob().getJobPostId())) {
-                            jobActivity.setActive(true);
+                            jobActivity.setIsActive(true);
                             exist = true;
                             break;
                         }
@@ -141,17 +141,17 @@ public class JobPostActivityController {
 
                     for (JobSeekerSave jobSeekerSave : jobSeekerSaveList) {
                         if (Objects.equals(jobActivity.getJobPostId(), jobSeekerSave.getJob().getJobPostId())) {
-                            jobActivity.setSaved(true);
+                            jobActivity.setIsSaved(true);
                             saved = true;
                             break;
 
                         }
                     }
                     if (!exist) {
-                        jobActivity.setActive(false);
+                        jobActivity.setIsActive(false);
                     }
                     if (!saved) {
-                        jobActivity.setSaved(false);
+                        jobActivity.setIsSaved(false);
                     }
 
                     model.addAttribute("jobPost", jobPost);
