@@ -41,6 +41,12 @@ public class JobSeekerSaveController {
             Users user = usersService.findByEmail(currentUsername);
             Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(user.getUserId());
             JobPostActivity jobPostActivity = jobPostActivityService.getOne(user.getUserId());
+            if (seekerProfile.isPresent() && jobPostActivity != null) {
+                jobSeekerSave.setJob(jobPostActivity);
+                jobSeekerSave.setUserId(seekerProfile.get());
+            }else {
+                throw new RuntimeException("User not found");
+            }
         }
 
         return "redirect:/dashboard/";
