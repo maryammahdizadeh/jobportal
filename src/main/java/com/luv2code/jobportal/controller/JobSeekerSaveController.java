@@ -1,11 +1,14 @@
 package com.luv2code.jobportal.controller;
 
 
+import com.luv2code.jobportal.entity.JobSeekerSave;
 import com.luv2code.jobportal.service.JobPostActivityService;
 import com.luv2code.jobportal.service.JobSeekerProfileService;
 import com.luv2code.jobportal.service.JobSeekerSaveService;
 import com.luv2code.jobportal.service.UsersService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class JobSeekerSaveController {
@@ -20,5 +23,10 @@ public class JobSeekerSaveController {
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.jobPostActivityService = jobPostActivityService;
         this.jobSeekerSaveService = jobSeekerSaveService;
+    }
+
+    @PostMapping("job-details/save/{id}")
+    public String save(@PathVariable("id") int id, JobSeekerSave jobSeekerSave) {
+
     }
 }
