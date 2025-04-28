@@ -1,6 +1,8 @@
 package com.luv2code.jobportal.controller;
 
 
+import com.luv2code.jobportal.entity.JobPostActivity;
+import com.luv2code.jobportal.entity.JobSeekerProfile;
 import com.luv2code.jobportal.entity.JobSeekerSave;
 import com.luv2code.jobportal.entity.Users;
 import com.luv2code.jobportal.service.JobPostActivityService;
@@ -13,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 @Controller
 public class JobSeekerSaveController {
@@ -35,6 +39,8 @@ public class JobSeekerSaveController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUsername = authentication.getName();
             Users user = usersService.findByEmail(currentUsername);
+            Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(user.getUserId());
+            JobPostActivity jobPostActivity = jobPostActivityService.getOne(user.getUserId());
         }
 
         return "redirect:/dashboard/";
