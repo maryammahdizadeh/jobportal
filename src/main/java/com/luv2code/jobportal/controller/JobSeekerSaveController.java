@@ -47,6 +47,7 @@ public class JobSeekerSaveController {
             }else {
                 throw new RuntimeException("User not found");
             }
+            jobSeekerSaveService.addNew(jobSeekerSave);
         }
 
         return "redirect:/dashboard/";
