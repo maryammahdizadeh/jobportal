@@ -193,7 +193,18 @@ public class JobPostActivityController {
     }
 
     @GetMapping("global-search/")
-    public String globalSearch() {
+    public String globalSearch(Model model,
+                               @RequestParam(value = "job", required = false) String job,
+                               @RequestParam(value = "location", required = false) String location,
+                               @RequestParam(value = "partTime", required = false) String partTime,
+                               @RequestParam(value = "fullTime", required = false) String fullTime,
+                               @RequestParam(value = "freelance", required = false) String freelance,
+                               @RequestParam(value = "remoteOnly", required = false) String remoteOnly,
+                               @RequestParam(value = "officeOnly", required = false) String officeOnly,
+                               @RequestParam(value = "partialRemote", required = false) String partialRemote,
+                               @RequestParam(value = "today", required = false) boolean today,
+                               @RequestParam(value = "days7", required = false) boolean days7,
+                               @RequestParam(value = "days30", required = false) boolean days30) {
 
         return "global-search";
     }
