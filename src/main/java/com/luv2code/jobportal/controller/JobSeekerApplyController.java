@@ -46,7 +46,7 @@ public class JobSeekerApplyController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recriuter"))) {
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {
                 RecruiterProfile user = recruiterProfileService.getCurrentRecruiterProfile();
                 if (user != null) {
                     model.addAttribute("applyList", jobSeekerApplyList);
