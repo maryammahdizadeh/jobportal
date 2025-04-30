@@ -68,6 +68,7 @@ public class JobSeekerSaveController {
         }
 
         model.addAttribute("jobPost", jobPost);
+        model.addAttribute("user", currentUserProfile);
 
         return "saved-jobs";
     }
