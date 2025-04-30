@@ -258,6 +258,8 @@ public class JobPostActivityController {
                     Arrays.asList(remoteOnly, officeOnly, partialRemote), searchDate);
         }
 
+        model.addAttribute("jobPost", jobPost);
+
         return "global-search";
     }
 }
