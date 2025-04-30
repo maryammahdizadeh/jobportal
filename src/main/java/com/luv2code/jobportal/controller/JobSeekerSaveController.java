@@ -67,6 +67,8 @@ public class JobSeekerSaveController {
             jobPost.add(jobSeekerSave.getJob());
         }
 
+        model.addAttribute("jobPost", jobPost);
+
         return "saved-jobs";
     }
 }
