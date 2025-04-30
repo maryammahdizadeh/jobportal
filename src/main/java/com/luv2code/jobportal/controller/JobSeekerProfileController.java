@@ -7,8 +7,14 @@ import com.luv2code.jobportal.entity.Users;
 import com.luv2code.jobportal.repository.UsersRepository;
 import com.luv2code.jobportal.service.JobSeekerProfileService;
 import com.luv2code.jobportal.service.UsersService;
+import com.luv2code.jobportal.util.FileDownloadUtil;
 import com.luv2code.jobportal.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +33,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/job-seeker-profile")
-public class JobSeekerProfileController  {
+public class JobSeekerProfileController {
 
     private final JobSeekerProfileService jobSeekerProfileService;
     private final UsersRepository usersRepository;
@@ -40,7 +46,7 @@ public class JobSeekerProfileController  {
     }
 
     @GetMapping("/")
-    public String jobSeekerProfile(Model model ) {
+    public String jobSeekerProfile(Model model) {
         JobSeekerProfile jobSeekerProfile = new JobSeekerProfile();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<Skills> skills = new ArrayList<>();
@@ -66,7 +72,7 @@ public class JobSeekerProfileController  {
     public String addNew(JobSeekerProfile jobSeekerProfile,
                          @RequestParam("image") MultipartFile image,
                          @RequestParam("pdf") MultipartFile pdf,
-                          Model model) {
+                         Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -96,22 +102,22 @@ public class JobSeekerProfileController  {
             jobSeekerProfile.setResume(resumeName);
         }
 
-       JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
+        JobSeekerProfile seekerProfile = jobSeekerProfileService.addNew(jobSeekerProfile);
 
         try {
             String uploadDir = "photos/candidate/" + jobSeekerProfile.getUserAccountId();
-            if(!Objects.equals(image.getOriginalFilename(),"")) {
+            if (!Objects.equals(image.getOriginalFilename(), "")) {
                 FileUploadUtil.saveFile(uploadDir, imageName, image);
             }
 
-            if(!Objects.equals(pdf.getOriginalFilename(),"")) {
+            if (!Objects.equals(pdf.getOriginalFilename(), "")) {
                 FileUploadUtil.saveFile(uploadDir, resumeName, pdf);
             }
-        }catch (IOException exception) {
+        } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
 
-         return "redirect:/dashboard/";
+        return "redirect:/dashboard/";
 
     }
 
@@ -121,5 +127,30 @@ public class JobSeekerProfileController  {
         Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(id);
         model.addAttribute("profile", seekerProfile.get());
         return "job-seeker-profile";
+    }
+
+    @GetMapping("/downloadResume")
+    public ResponseEntity<?> downloadResume(@RequestParam(value = "fileName") String fileName,
+                                            @RequestParam(value = "userID") String userId) {
+        FileDownloadUtil fileDownloadUtil = new FileDownloadUtil();
+        Resource resource = null;
+
+        try {
+            resource = fileDownloadUtil.getFileAsResource("photos/candidate/" + userId, fileName);
+        } catch (IOException io) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (resource == null) {
+            return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
+        }
+
+        String contentType = "application/octet-stream";
+        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                .body(resource);
+
     }
 }
