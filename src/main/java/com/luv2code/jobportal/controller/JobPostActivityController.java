@@ -191,4 +191,10 @@ public class JobPostActivityController {
         model.addAttribute("user", usersService.getCurrentUserProfile());
         return "add-jobs";
     }
+
+    @GetMapping("global-search/")
+    public String globalSearch() {
+
+        return "global-search";
+    }
 }
