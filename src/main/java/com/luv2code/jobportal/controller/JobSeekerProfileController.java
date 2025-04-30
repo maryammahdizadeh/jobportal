@@ -118,6 +118,7 @@ public class JobSeekerProfileController  {
     @GetMapping("/{id}")
     public String candidateProfile(@PathVariable("id") int id, Model model) {
 
+        Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(id);
         return "job-seeker-profile";
     }
 }
