@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -46,7 +48,7 @@ public class JobSeekerSaveController {
             if (seekerProfile.isPresent() && jobPostActivity != null) {
                 jobSeekerSave.setJob(jobPostActivity);
                 jobSeekerSave.setUserId(seekerProfile.get());
-            }else {
+            } else {
                 throw new RuntimeException("User not found");
             }
             jobSeekerSaveService.addNew(jobSeekerSave);
@@ -56,6 +58,14 @@ public class JobSeekerSaveController {
 
     @GetMapping("saved-jobs/")
     public String savedJobs(Model model) {
+
+        List<JobPostActivity> jobPost = new ArrayList<>();
+        Object currentUserProfile = usersService.getCurrentUserProfile();
+
+        List<JobSeekerSave> jobSeekerSaveList = jobSeekerSaveService.getCandidatesJob((JobSeekerProfile) currentUserProfile);
+        for (JobSeekerSave jobSeekerSave : jobSeekerSaveList) {
+            jobPost.add(jobSeekerSave.getJob());
+        }
 
         return "saved-jobs";
     }
